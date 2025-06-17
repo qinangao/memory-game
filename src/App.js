@@ -19,9 +19,8 @@ export default function App() {
         throw new Error("Something went wrong");
       }
       const data = await res.json();
-
+      //get 5 random emojis from emoji arrray
       const dataSample = getRandomEmojis(data, 5);
-
       setEmojisData(dataSample);
       setIsGameOn(true);
     } catch (error) {
