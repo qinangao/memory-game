@@ -9,6 +9,10 @@ const API_URL =
 export default function App() {
   const [isGameOn, setIsGameOn] = useState(false);
   const [emojisData, setEmojisData] = useState([]);
+  const [selectedCard, setSelectedCard] = useState([]);
+  console.log(selectedCard);
+
+  // let selectedCards = [];
 
   async function startGame(e) {
     e.preventDefault();
@@ -28,8 +32,8 @@ export default function App() {
     }
   }
 
-  function turnCard() {
-    console.log("Memory card clicked");
+  function turnCard(name, index) {
+    setSelectedCard([{ cardId: index, cardName: name }]);
   }
 
   return (
