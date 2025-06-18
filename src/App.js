@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Form from "./components/Form";
 import MemoryCard from "./components/MemoryCard";
-import { getRandomEmojis } from "./helper";
+import { getRandomEmojis, getShuffledEmojis } from "./helper";
 
 const API_URL =
   "https://emojihub.yurace.pro/api/all/category/animals-and-nature";
@@ -23,9 +23,13 @@ export default function App() {
         throw new Error("Something went wrong");
       }
       const data = await res.json();
-      //get 5 random emojis from emoji arrray
+      //1. get 5 random emojis from emoji arrray
       const dataSample = getRandomEmojis(data, 5);
-      setEmojisData(dataSample);
+
+      //2.pair emojis and shuffle emojis
+      const getEmojis = getShuffledEmojis(dataSample);
+
+      setEmojisData(getEmojis);
       setIsGameOn(true);
     } catch (error) {
       console.error(error.message);
