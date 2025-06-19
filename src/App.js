@@ -11,6 +11,8 @@ export default function App() {
   const [emojisData, setEmojisData] = useState([]);
   const [selectedCard, setSelectedCard] = useState([]);
   const [matchCards, setMatchCards] = useState([]);
+  const [isGameOver, setIsGameOver] = useState(false);
+  console.log(isGameOver);
   // console.log(selectedCard);
 
   async function startGame(e) {
@@ -44,19 +46,22 @@ export default function App() {
       setSelectedCard([{ index, name }]);
     }
   }
-  console.log(matchCards);
 
   useEffect(() => {
     if (selectedCard.length === 2) {
       const [first, second] = selectedCard;
       if (first.name === second.name && first.index !== second.index) {
-        console.log("Match!");
         setMatchCards((prev) => [...prev, ...selectedCard]);
-      } else {
-        console.log("Does not match");
       }
     }
   }, [selectedCard]);
+
+  useEffect(() => {
+    if (matchCards.length && matchCards.length === emojisData.length) {
+      setIsGameOver(true);
+      console.log("game over");
+    }
+  }, [matchCards, emojisData]);
 
   return (
     <main>
