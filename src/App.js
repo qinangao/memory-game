@@ -12,8 +12,6 @@ export default function App() {
   const [selectedCard, setSelectedCard] = useState([]);
   const [matchCards, setMatchCards] = useState([]);
   const [isGameOver, setIsGameOver] = useState(false);
-  console.log(isGameOver);
-  // console.log(selectedCard);
 
   async function startGame(e) {
     e.preventDefault();
@@ -67,7 +65,14 @@ export default function App() {
     <main>
       <h1>Memory</h1>
       {!isGameOn && <Form handleSubmit={startGame} />}
-      {isGameOn && <MemoryCard handleClick={turnCard} data={emojisData} />}
+      {isGameOn && (
+        <MemoryCard
+          handleClick={turnCard}
+          data={emojisData}
+          selectedCard={selectedCard}
+          matchCards={matchCards}
+        />
+      )}
     </main>
   );
 }
