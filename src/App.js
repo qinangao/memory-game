@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Form from "./components/Form";
 import MemoryCard from "./components/MemoryCard";
 import { getRandomEmojis, getShuffledEmojis } from "./helper";
+import AssistiveTechInfo from "./components/AssistiveTechInfo";
 
 const API_URL =
   "https://emojihub.yurace.pro/api/all/category/animals-and-nature";
@@ -11,7 +12,7 @@ export default function App() {
   const [emojisData, setEmojisData] = useState([]);
   const [selectedCard, setSelectedCard] = useState([]);
   const [matchCards, setMatchCards] = useState([]);
-  const [isGameOver, setIsGameOver] = useState(false);
+  const [areAllCardMatched, setAreAllCardMatched] = useState(false);
 
   async function startGame(e) {
     e.preventDefault();
@@ -36,11 +37,9 @@ export default function App() {
   }
   // console.log(selectedCard);
   function turnCard(name, index) {
-    // setSelectedCard([{ index, name }]);
-    const selectedCardEntry = selectedCard.find((card) => card.index === index);
-    if (!selectedCardEntry && selectedCard.length < 2) {
+    if (selectedCard.length < 2) {
       setSelectedCard((prev) => [...prev, { index, name }]);
-    } else if (!selectedCardEntry && selectedCard.length === 2) {
+    } else if (selectedCard.length === 2) {
       setSelectedCard([{ index, name }]);
     }
   }
@@ -56,8 +55,7 @@ export default function App() {
 
   useEffect(() => {
     if (matchCards.length && matchCards.length === emojisData.length) {
-      setIsGameOver(true);
-      console.log("game over");
+      setAreAllCardMatched(true);
     }
   }, [matchCards, emojisData]);
 
@@ -65,6 +63,9 @@ export default function App() {
     <main>
       <h1>Memory</h1>
       {!isGameOn && <Form handleSubmit={startGame} />}
+      {isGameOn && !areAllCardMatched && (
+        <AssistiveTechInfo emojiData={emojisData} matchedCards={matchCards} />
+      )}
       {isGameOn && (
         <MemoryCard
           handleClick={turnCard}
