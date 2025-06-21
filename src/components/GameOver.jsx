@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
 import RegularButton from "./RegularButton";
+import { useGame } from "../useGame";
 
-function GameOver({ resetGame }) {
+function GameOver() {
+  const { resetGame } = useGame();
   const divRef = useRef(null);
   useEffect(() => {
     divRef.current.focus();

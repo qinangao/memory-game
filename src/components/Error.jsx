@@ -1,9 +1,10 @@
 import { useEffect, useRef } from "react";
 import RegularButton from "./RegularButton";
+import { useGame } from "../useGame";
 
-function Error({ resetError }) {
+function Error() {
+  const { resetError } = useGame();
   const errorRef = useRef(null);
-
   useEffect(() => {
     errorRef.current.focus();
   }, []);

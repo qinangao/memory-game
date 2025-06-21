@@ -1,14 +1,11 @@
+import { useGame } from "../useGame";
 import EmojiButton from "./EmojiButton";
 
-export default function MemoryCard({
-  handleClick,
-  data,
-  selectedCard,
-  matchCards,
-}) {
+export default function MemoryCard() {
+  const { emojisData, turnCard, matchCards, selectedCard } = useGame();
   return (
     <ul className="card-container">
-      {data.map((emoji, index) => {
+      {emojisData.map((emoji, index) => {
         const selectedCardEntry = selectedCard.find(
           (card) => card.index === index
         );
@@ -24,7 +21,7 @@ export default function MemoryCard({
           <li key={index} className={cardStyle}>
             <EmojiButton
               emoji={emoji}
-              onClick={() => handleClick(emoji.name, index)}
+              onClick={() => turnCard(emoji.name, index)}
               selectedCardEntry={selectedCardEntry}
               matchedCardEntry={matchedCardEntry}
               index={index}
