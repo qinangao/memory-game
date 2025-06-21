@@ -6,6 +6,7 @@ import AssistiveTechInfo from "./components/AssistiveTechInfo";
 import GameOver from "./components/GameOver";
 import Error from "./components/Error";
 import { API_URL } from "./config";
+import Title from "./components/Title";
 
 export default function App() {
   const initialFormData = {
@@ -82,11 +83,7 @@ export default function App() {
   }
   return (
     <main>
-      <h1>Memory Game</h1>
-      <p className="p--regular">
-        Customize the game by selecting an emoji category and a number of memory
-        cards.
-      </p>
+      <Title />
       {!isGameOn && !isError && (
         <Form handleSubmit={startGame} handleChange={handleFormChange} />
       )}
