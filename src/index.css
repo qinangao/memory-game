@@ -2,12 +2,20 @@
   margin: 0;
 }
 
-:root {
+/* :root {
   --dark-primary: #082f49;
   --light-primary: #f0f9ff;
   --light-secondary: #cbd5e1;
   --accent: #fde68a;
   --btn-disabled: #a8a29e;
+} */
+
+:root {
+  --dark-primary: #000000;
+  --light-primary: #fff1e9;
+  --light-secondary: #fdeff4;
+  --accent: #ed5278;
+  --btn-disabled: #efb7b7;
 }
 
 /*===========================
@@ -29,6 +37,7 @@ main {
   height: 100%;
   min-height: 100vh;
   padding: 2em;
+  position: relative;
 }
 
 .wrapper {
@@ -38,6 +47,13 @@ main {
   background-color: var(--light-secondary);
   color: var(--dark-primary);
   border-radius: 0.5em;
+  min-width: 250px;
+  padding: 1.5rem;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
 }
 
 .wrapper--accent {
@@ -133,6 +149,7 @@ select {
   border: 1px solid var(--dark-primary);
   border-radius: 0.5em;
   cursor: pointer;
+  font-size: 1.12rem;
 }
 
 select:hover,
@@ -151,6 +168,8 @@ Game
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 1em;
   width: 100%;
+  /* max-width: 650px;
+  margin: 0 auto; */
 }
 
 .card-item {
@@ -242,5 +261,10 @@ Media queries
 
   .card-container {
     grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+    max-width: 1530px;
+    margin: 0 auto;
+  }
+  .wrapper {
+    min-width: 500px;
   }
 }
