@@ -3,36 +3,42 @@ import Form from "./components/Form";
 import MemoryCard from "./components/MemoryCard";
 import { getRandomEmojis, getShuffledEmojis } from "./helper";
 import AssistiveTechInfo from "./components/AssistiveTechInfo";
-
-const API_URL =
-  "https://emojihub.yurace.pro/api/all/category/animals-and-nature";
+import GameOver from "./components/GameOver";
+import Error from "./components/Error";
+import { API_URL } from "./config";
 
 export default function App() {
+  const initialFormData = {
+    category: "animals-and-nature",
+    number: 5,
+  };
+  const [formData, setFormData] = useState(initialFormData);
   const [isGameOn, setIsGameOn] = useState(false);
   const [emojisData, setEmojisData] = useState([]);
   const [selectedCard, setSelectedCard] = useState([]);
   const [matchCards, setMatchCards] = useState([]);
   const [areAllCardMatched, setAreAllCardMatched] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   async function startGame(e) {
     e.preventDefault();
-
     try {
-      const res = await fetch(API_URL);
+      // throw new Error("error test");
+      const res = await fetch(`${API_URL}/${formData.category}`);
       if (!res.ok) {
         throw new Error("Something went wrong");
       }
       const data = await res.json();
       //1. get 5 random emojis from emoji arrray
-      const dataSample = getRandomEmojis(data, 5);
+      const dataSample = getRandomEmojis(data, formData.number);
 
       //2.pair emojis and shuffle emojis
       const getEmojis = getShuffledEmojis(dataSample);
-
       setEmojisData(getEmojis);
       setIsGameOn(true);
     } catch (error) {
       console.error(error.message);
+      setIsError(true);
     }
   }
   // console.log(selectedCard);
@@ -59,13 +65,23 @@ export default function App() {
     }
   }, [matchCards, emojisData]);
 
+  function resetGame() {
+    setIsGameOn(false);
+    setSelectedCard([]);
+    setMatchCards([]);
+    setAreAllCardMatched(false);
+  }
+  function resetError() {
+    setIsError(false);
+  }
   return (
     <main>
       <h1>Memory</h1>
-      {!isGameOn && <Form handleSubmit={startGame} />}
+      {!isGameOn && !isError && <Form handleSubmit={startGame} />}
       {isGameOn && !areAllCardMatched && (
         <AssistiveTechInfo emojiData={emojisData} matchedCards={matchCards} />
       )}
+      {areAllCardMatched && <GameOver resetGame={resetGame} />}
       {isGameOn && (
         <MemoryCard
           handleClick={turnCard}
@@ -74,6 +90,7 @@ export default function App() {
           matchCards={matchCards}
         />
       )}
+      {isError && <Error resetError={resetError} />}
     </main>
   );
 }
