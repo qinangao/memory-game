@@ -1,8 +1,10 @@
 import { data } from "../data";
+import { useGame } from "../useGame";
 import RegularButton from "./RegularButton";
 import SelectField from "./SelectField";
 
-export default function Form({ handleSubmit, handleChange }) {
+export default function Form() {
+  const { startGame, handleFormChange } = useGame();
   return (
     <div className="form-container">
       <form className="wrapper">
@@ -11,16 +13,16 @@ export default function Form({ handleSubmit, handleChange }) {
           name="category"
           id="category"
           options={data.category}
-          onChange={handleChange}
+          onChange={handleFormChange}
         />
         <SelectField
           label="Choose your challenge level:"
           name="number"
           id="difficulty"
           options={data.difficulty}
-          onChange={handleChange}
+          onChange={handleFormChange}
         />
-        <RegularButton handleClick={handleSubmit}>Start Game</RegularButton>
+        <RegularButton handleClick={startGame}>Start Game</RegularButton>
       </form>
     </div>
   );
