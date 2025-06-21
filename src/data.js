@@ -1,42 +1,15 @@
 const data = {
   category: [
-    {
-      name: "Animals and nature",
-      value: "animals-and-nature",
-    },
-    {
-      name: "Food and drink",
-      value: "food-and-drink",
-    },
-    {
-      name: "Travel and places",
-      value: "travel-and-places",
-    },
-    {
-      name: "Objects",
-      value: "objects",
-    },
-    {
-      name: "Symbols",
-      value: "symbols",
-    },
+    { value: "animals-and-nature", label: "Animals and nature" },
+    { value: "food-and-drink", label: "Food and drink" },
+    { value: "travel-and-places", label: "Travel and places" },
+    { value: "objects", label: "Objects" },
+    { value: "symbols", label: "Symbols" },
   ],
-  number: [
-    {
-      value: "10",
-    },
-    {
-      value: "20",
-    },
-    {
-      value: "30",
-    },
-    {
-      value: "40",
-    },
-    {
-      value: "50",
-    },
+  difficulty: [
+    { value: "5", label: "Easy" },
+    { value: "10", label: "Medium" },
+    { value: "20", label: "Hard" },
   ],
 };
 
