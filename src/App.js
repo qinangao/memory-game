@@ -20,6 +20,12 @@ export default function App() {
   const [areAllCardMatched, setAreAllCardMatched] = useState(false);
   const [isError, setIsError] = useState(false);
 
+  function handleFormChange(e) {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  }
+  console.log(formData);
+
   async function startGame(e) {
     e.preventDefault();
     try {
@@ -30,7 +36,7 @@ export default function App() {
       }
       const data = await res.json();
       //1. get 5 random emojis from emoji arrray
-      const dataSample = getRandomEmojis(data, formData.number);
+      const dataSample = getRandomEmojis(data, Number(formData.number));
 
       //2.pair emojis and shuffle emojis
       const getEmojis = getShuffledEmojis(dataSample);
@@ -76,8 +82,14 @@ export default function App() {
   }
   return (
     <main>
-      <h1>Memory</h1>
-      {!isGameOn && !isError && <Form handleSubmit={startGame} />}
+      <h1>Memory Game</h1>
+      <p className="p--regular">
+        Customize the game by selecting an emoji category and a number of memory
+        cards.
+      </p>
+      {!isGameOn && !isError && (
+        <Form handleSubmit={startGame} handleChange={handleFormChange} />
+      )}
       {isGameOn && !areAllCardMatched && (
         <AssistiveTechInfo emojiData={emojisData} matchedCards={matchCards} />
       )}
