@@ -1,6 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { API_URL } from "./config";
-import { getRandomEmojis, getShuffledEmojis } from "./helper";
+import { API_URL, STARTING_TIME } from "./config";
+import {
+  getRandomEmojis,
+  getShuffledEmojis,
+  getTimeByCardCount,
+} from "./helper";
+import { useTimer } from "./useTimer";
 
 const GameContext = createContext();
 
@@ -9,6 +14,7 @@ function GameProvider({ children }) {
     category: "animals-and-nature",
     number: 5,
   };
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const [formData, setFormData] = useState(initialFormData);
   const [isGameOn, setIsGameOn] = useState(false);
   const [emojisData, setEmojisData] = useState([]);
@@ -16,6 +22,11 @@ function GameProvider({ children }) {
   const [matchCards, setMatchCards] = useState([]);
   const [areAllCardMatched, setAreAllCardMatched] = useState(false);
   const [isError, setIsError] = useState(false);
+
+  const { setTimeLeft, setIsRunning, timeLeft } = useTimer();
+
+  const gameTime = getTimeByCardCount(formData.number);
+  console.log(gameTime);
 
   function handleFormChange(e) {
     const { name, value } = e.target;
@@ -38,9 +49,13 @@ function GameProvider({ children }) {
       const getEmojis = getShuffledEmojis(dataSample);
       setEmojisData(getEmojis);
       setIsGameOn(true);
+      setTimeLeft(gameTime);
+      setIsRunning(true);
     } catch (error) {
       console.error(error.message);
       setIsError(true);
+    } finally {
+      setIsFirstRender(false);
     }
   }
 
@@ -50,6 +65,16 @@ function GameProvider({ children }) {
     } else if (selectedCard.length === 2) {
       setSelectedCard([{ index, name }]);
     }
+  }
+
+  function resetGame() {
+    setIsGameOn(false);
+    setSelectedCard([]);
+    setMatchCards([]);
+    setAreAllCardMatched(false);
+  }
+  function resetError() {
+    setIsError(false);
   }
 
   useEffect(() => {
@@ -64,18 +89,19 @@ function GameProvider({ children }) {
   useEffect(() => {
     if (matchCards.length && matchCards.length === emojisData.length) {
       setAreAllCardMatched(true);
+      setIsRunning(false);
     }
-  }, [matchCards, emojisData]);
+  }, [matchCards, emojisData, setIsRunning]);
 
-  function resetGame() {
-    setIsGameOn(false);
-    setSelectedCard([]);
-    setMatchCards([]);
-    setAreAllCardMatched(false);
-  }
-  function resetError() {
-    setIsError(false);
-  }
+  useEffect(() => {
+    if (timeLeft === 0 && isGameOn && !areAllCardMatched) {
+      setIsRunning(false);
+      // End the game
+      setIsGameOn(false);
+      alert("⏰ Time's up! Game Over.");
+    }
+  }, [timeLeft, isGameOn, areAllCardMatched, setIsRunning]);
+
   return (
     <GameContext.Provider
       value={{
@@ -83,6 +109,7 @@ function GameProvider({ children }) {
         handleFormChange,
         startGame,
         isGameOn,
+        setIsGameOn,
         emojisData,
         selectedCard,
         turnCard,
@@ -91,6 +118,7 @@ function GameProvider({ children }) {
         resetGame,
         isError,
         resetError,
+        isFirstRender,
       }}
     >
       {children}
