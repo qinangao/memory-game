@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { API_URL, STARTING_TIME } from "./config";
+import { API_URL } from "./config";
 import {
   getRandomEmojis,
   getShuffledEmojis,
@@ -22,6 +22,7 @@ function GameProvider({ children }) {
   const [matchCards, setMatchCards] = useState([]);
   const [areAllCardMatched, setAreAllCardMatched] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isTimeUp, setIsTimeUp] = useState(false);
 
   const { setTimeLeft, setIsRunning, timeLeft } = useTimer();
 
@@ -35,6 +36,7 @@ function GameProvider({ children }) {
 
   async function startGame(e) {
     e.preventDefault();
+    resetGame();
     try {
       // throw new Error("error test");
       const res = await fetch(`${API_URL}/${formData.category}`);
@@ -60,6 +62,7 @@ function GameProvider({ children }) {
   }
 
   function turnCard(name, index) {
+    if (!isGameOn || isTimeUp || areAllCardMatched) return;
     if (selectedCard.length < 2) {
       setSelectedCard((prev) => [...prev, { index, name }]);
     } else if (selectedCard.length === 2) {
@@ -72,6 +75,7 @@ function GameProvider({ children }) {
     setSelectedCard([]);
     setMatchCards([]);
     setAreAllCardMatched(false);
+    setIsTimeUp(false);
   }
   function resetError() {
     setIsError(false);
@@ -96,9 +100,10 @@ function GameProvider({ children }) {
   useEffect(() => {
     if (timeLeft === 0 && isGameOn && !areAllCardMatched) {
       setIsRunning(false);
+      setIsTimeUp(true);
       // End the game
-      setIsGameOn(false);
-      alert("⏰ Time's up! Game Over.");
+      // setIsGameOn(false);
+      // alert("⏰ Time's up! Game Over.");
     }
   }, [timeLeft, isGameOn, areAllCardMatched, setIsRunning]);
 
@@ -119,6 +124,7 @@ function GameProvider({ children }) {
         isError,
         resetError,
         isFirstRender,
+        isTimeUp,
       }}
     >
       {children}
