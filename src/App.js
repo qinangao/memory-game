@@ -5,18 +5,19 @@ import GameOver from "./components/GameOver";
 import Error from "./components/Error";
 import Title from "./components/Title";
 import { useGame } from "./useGame";
-import { useTimer } from "./useTimer";
+import TimeUp from "./components/TimeUp";
 
 export default function App() {
-  const { isGameOn, areAllCardMatched, isError } = useGame();
+  const { isGameOn, areAllCardMatched, isError, isTimeUp } = useGame();
 
   return (
     <main>
       <Title />
       {!isGameOn && !isError && <Form />}
+      {isTimeUp && <TimeUp />}
       {isGameOn && !areAllCardMatched && <AssistiveTechInfo />}
       {areAllCardMatched && <GameOver />}
-      {isGameOn && <MemoryCard />}
+      {isGameOn && !areAllCardMatched && <MemoryCard />}
       {isError && <Error />}
     </main>
   );
