@@ -14,3 +14,10 @@ export function getShuffledEmojis(data) {
   }
   return pairedEmojiArray;
 }
+
+export function getTimeByCardCount(count) {
+  const num = Number(count);
+  if (num === 5) return 30;
+  if (num === 10) return 120;
+  if (num === 20) return 240;
+}
