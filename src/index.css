@@ -49,17 +49,21 @@ main {
   border-radius: 0.5em;
   min-width: 250px;
   padding: 1.5rem;
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
 }
 
 .wrapper--accent {
   padding: 2em 3em;
   border: 1px solid var(--dark-primary);
   box-shadow: 0 0 5px 2px var(--light-primary);
+}
+
+.result--wrapper {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  border: none;
 }
 
 /*===========================
@@ -126,6 +130,7 @@ Form
   flex-direction: column;
   gap: 1.5em;
   text-align: start;
+  margin-top: 1.5em;
 }
 
 form {
