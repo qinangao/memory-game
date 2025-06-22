@@ -1,4 +1,5 @@
 import { decodeEntity } from "html-entities";
+import { useGame } from "../useGame";
 
 function EmojiButton({
   onClick,
@@ -23,11 +24,15 @@ function EmojiButton({
     ? `${emoji.name}. Not matched yet.`
     : "Card upside down.";
 
+  const { isGameOn, isTimeUp, areAllCardMatched } = useGame();
+
   return (
     <button
       className={`btn btn--emoji ${btnStyle}`}
       onClick={selectedCardEntry ? null : onClick}
-      disabled={!!matchedCardEntry}
+      disabled={
+        !!matchedCardEntry || !isGameOn || isTimeUp || areAllCardMatched
+      }
       aria-label={`Position ${index + 1}: ${btnAria}`}
       aria-live="polite"
     >
