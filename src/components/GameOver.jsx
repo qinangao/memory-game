@@ -9,7 +9,11 @@ function GameOver() {
     divRef.current.focus();
   }, []);
   return (
-    <div className="wrapper wrapper--accent" ref={divRef} tabIndex={-1}>
+    <div
+      className="wrapper wrapper--accent result--wrapper"
+      ref={divRef}
+      tabIndex={-1}
+    >
       <p className="p--large">You've matched all the memory cards! 🎉🥳</p>
       <RegularButton handleClick={resetGame}>Play Again</RegularButton>
     </div>

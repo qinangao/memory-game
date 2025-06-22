@@ -1,12 +1,19 @@
+import { useEffect, useRef } from "react";
 import { data } from "../data";
 import { useGame } from "../useGame";
 import RegularButton from "./RegularButton";
 import SelectField from "./SelectField";
+import { useTimer } from "../useTimer";
 
 export default function Form() {
-  const { startGame, handleFormChange } = useGame();
+  const { startGame, handleFormChange, isFirstRender } = useGame();
+
+  const divRef = useRef(null);
+  useEffect(() => {
+    !isFirstRender && divRef.current.focus();
+  }, [isFirstRender]);
   return (
-    <div className="form-container">
+    <div className="form-container" ref={divRef}>
       <form className="wrapper">
         <SelectField
           label="Select an emoji category:"
