@@ -3,7 +3,6 @@ import { data } from "../data";
 import { useGame } from "../useGame";
 import RegularButton from "./RegularButton";
 import SelectField from "./SelectField";
-import { useTimer } from "../useTimer";
 
 export default function Form() {
   const { startGame, handleFormChange, isFirstRender } = useGame();
