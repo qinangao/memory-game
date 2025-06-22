@@ -4,7 +4,6 @@ const data = {
     { value: "food-and-drink", label: "Food and drink" },
     { value: "travel-and-places", label: "Travel and places" },
     { value: "objects", label: "Objects" },
-    { value: "symbols", label: "Symbols" },
   ],
   difficulty: [
     { value: "5", label: "Easy" },
