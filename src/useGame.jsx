@@ -27,7 +27,6 @@ function GameProvider({ children }) {
   const { setTimeLeft, setIsRunning, timeLeft } = useTimer();
 
   const gameTime = getTimeByCardCount(formData.number);
-  console.log(gameTime);
 
   function handleFormChange(e) {
     const { name, value } = e.target;
